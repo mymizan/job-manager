@@ -542,6 +542,16 @@ function jobman_edit_job( $jobid ) {
 				<td><input type="checkbox" name="jobman-highlighted" value="1" <?php echo $checked ?>/></td>
 				<td><span class="description"><?php _e( 'Mark this job as highlighted? For the behaviour of highlighted jobs, see the Display Settings admin page.', 'jobman' ) ?></span></td>
 			</tr>
+<?php
+	$checked = '';
+	if( array_key_exists( 'approved', $jobdata ) && $jobdata['approved'] )
+		$checked = ' checked="checked"';
+?>
+			<tr>
+				<th scope="row"><?php _e( 'Approved?', 'jobman' ) ?></th>
+				<td><input type="checkbox" name="jobman-approved" value="1" <?php echo $checked ?>/></td>
+				<td><span class="description"><?php _e( 'Mark this job as approved? Only approved jobs will be displayed publicly', 'jobman' ) ?></span></td>
+			</tr>
 		</table>
 		<p class="submit"><input type="submit" name="submit"  class="button-primary" value="<?php echo $submit ?>" /></p>
 	</div>
@@ -560,11 +570,16 @@ function jobman_updatedb() {
 		$displaystartdate = date( 'Y-m-d H:i:s', strtotime( stripslashes( $_REQUEST['jobman-displaystartdate'] ) ) );
 	else
 		$displaystartdate = date( 'Y-m-d H:i:s' );
-
+	if ( array_key_exists('jobman-approved', $_REQUEST) && $_REQUEST['jobman-approved'] == 1 ){
+		$post_status = 'publish';
+	} else {
+		$post_status = 'draft';
+	}
 	$page = array(
 				'comment_status' => 'closed',
 				'ping_status' => 'closed',
-				'post_status' => 'publish',
+				'post_status' => $post_status,
+				//'post_status' => 'publish',
 				'post_content' => '',
 				'post_name' => strtolower( str_replace( ' ', '-', $_REQUEST['jobman-title'] ) ),
 				'post_title' => stripslashes( html_entity_decode( $_REQUEST['jobman-title'] ) ),
