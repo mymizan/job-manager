@@ -544,7 +544,7 @@ function jobman_edit_job( $jobid ) {
 			</tr>
 <?php
 	$checked = '';
-	if( array_key_exists( 'approved', $jobdata ) && $jobdata['approved'] )
+	if( $job->post_status == 'publish' )
 		$checked = ' checked="checked"';
 ?>
 			<tr>
