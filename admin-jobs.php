@@ -90,7 +90,7 @@ function jobman_list_jobs() {
 		if( count( $expired ) ) {
 ?>
 		<tr class="jobman-expired-jobs">
-			<td colspan="<?php echo $fieldcount + 5 ?>"><?php _e( 'Expired jobs', 'jobman' ) ?></td>
+			<td colspan="<?php echo $fieldcount + 5 ?>"><?php _e( 'Expired/Draft jobs', 'jobman' ) ?></td>
 		</tr>
 <?php
 		}
